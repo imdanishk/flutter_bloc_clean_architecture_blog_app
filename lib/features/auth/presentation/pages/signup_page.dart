@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_pallete.dart';
+import '../bloc/auth_bloc.dart';
 import '../widgets/auth_field.dart';
 import '../widgets/auth_gradient_button.dart';
 import 'login_page.dart';
@@ -67,7 +69,17 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 20),
               AuthGradientButton(
                 buttonText: 'Sign Up',
-                onPressed: () {},
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    context.read<AuthBloc>().add(
+                          AuthSignUp(
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                            name: nameController.text.trim(),
+                          ),
+                        );
+                  }
+                },
               ),
               const SizedBox(height: 20),
               GestureDetector(
@@ -81,10 +93,11 @@ class _SignUpPageState extends State<SignUpPage> {
                     children: [
                       TextSpan(
                         text: 'Sign In',
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              color: AppPallete.gradient2,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: AppPallete.gradient2,
+                                  fontWeight: FontWeight.bold,
+                                ),
                       ),
                     ],
                   ),
