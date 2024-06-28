@@ -7,6 +7,7 @@ class UserModel extends User {
     required super.name,
   });
 
+  // Factory constructor to create a UserModel instance from a JSON map.
   factory UserModel.fromJson(Map<String, dynamic> map) {
     return UserModel(
       id: map['id'] ?? '',
@@ -15,6 +16,7 @@ class UserModel extends User {
     );
   }
 
+  // Method to create a copy of the current UserModel with optional new values.
   UserModel copyWith({
     String? id,
     String? email,
