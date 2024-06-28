@@ -2,6 +2,7 @@ import 'package:flutter_bloc_clean_architecture_blog_app/core/secrets/app_secret
 import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/domain/repository/auth_repository.dart';
+import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/domain/usecases/user_login.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -23,32 +24,39 @@ Future<void> initDependencies() async {
 
 void _initAuth() {
   // Datasource
-  serviceLocator.registerFactory<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(
-      serviceLocator(),
-    ),
-  );
+  serviceLocator
+    ..registerFactory<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(
+        serviceLocator(),
+      ),
+    )
 
-  // Repository
-  // Registering AuthRepository as a factory to get a new instance each time it's needed.
-  serviceLocator.registerFactory<AuthRepository>(
-    () => AuthRepositoryImpl(
-      serviceLocator(),
-    ),
-  );
+    // Repository
+    // Registering AuthRepository as a factory to get a new instance each time it's needed.
+    ..registerFactory<AuthRepository>(
+      () => AuthRepositoryImpl(
+        serviceLocator(),
+      ),
+    )
 
-  // Usecases
-  // Registering UserSignUp use case as a factory to ensure each use case call gets a fresh instance.
-  serviceLocator.registerFactory(
-    () => UserSignUp(
-      serviceLocator(),
-    ),
-  );
+    // Usecases
+    // Registering UserSignUp use case as a factory to ensure each use case call gets a fresh instance.
+    ..registerFactory(
+      () => UserSignUp(
+        serviceLocator(),
+      ),
+    )
+    ..registerFactory(
+      () => UserLogin(
+        serviceLocator(),
+      ),
+    )
 
-  // Registering AuthBloc as a lazy singleton to maintain a single instance throughout the app's lifecycle.
-  serviceLocator.registerLazySingleton(
-    () => AuthBloc(
-      userSignUp: serviceLocator(),
-    ),
-  );
+    // Registering AuthBloc as a lazy singleton to maintain a single instance throughout the app's lifecycle.
+    ..registerLazySingleton(
+      () => AuthBloc(
+        userSignUp: serviceLocator(),
+        userLogin: serviceLocator(),
+      ),
+    );
 }
