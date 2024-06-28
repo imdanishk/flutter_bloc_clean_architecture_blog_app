@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Bloc Clean Architecture Blog App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkThemeMode,
       home: const LoginPage(),

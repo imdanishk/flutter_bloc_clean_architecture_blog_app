@@ -2,6 +2,7 @@ import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
+import '../../domain/entities/user.dart';
 import '../../domain/repository/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
 
@@ -21,7 +22,7 @@ class AuthRepositoryImpl implements AuthRepository {
   );
 
   @override
-  Future<Either<Failure, String>> signUpWithEmailPassword({
+  Future<Either<Failure, User>> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
@@ -35,23 +36,23 @@ class AuthRepositoryImpl implements AuthRepository {
     );
   }
 
-  Future<Either<Failure, String>> _getUser(
-    Future<String> Function() fn,
+  Future<Either<Failure, User>> _getUser(
+    Future<User> Function() fn,
   ) async {
     try {
       // if (!await (connectionChecker.isConnected)) {
       //   return left(Failure(Constants.noConnectionErrorMessage));
       // }
-      final userId = await fn();
+      final user = await fn();
 
-      return right(userId);
+      return right(user);
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }
   }
 
   @override
-  Future<Either<Failure, String>> loginWithEmailPassword(
+  Future<Either<Failure, User>> loginWithEmailPassword(
       {required String email, required String password}) {
     // TODO: implement loginWithEmailPassword
     throw UnimplementedError();
