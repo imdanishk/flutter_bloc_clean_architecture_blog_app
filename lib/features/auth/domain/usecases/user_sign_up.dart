@@ -2,7 +2,7 @@ import 'package:flutter_bloc_clean_architecture_blog_app/core/error/failures.dar
 import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/usecase/usecase.dart';
-import '../entities/user.dart';
+import '../../../../core/common/entities/user.dart';
 import '../repository/auth_repository.dart';
 
 class UserSignUp implements UseCase<User, UserSignUpParams> {

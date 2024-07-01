@@ -1,3 +1,4 @@
+import 'package:flutter_bloc_clean_architecture_blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/core/secrets/app_secrets.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/data/datasources/auth_remote_data_source.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/data/repositories/auth_repository_impl.dart';
@@ -21,6 +22,11 @@ Future<void> initDependencies() async {
 
   // Registering Supabase client as a lazy singleton to ensure only one instance is created and shared across the app.
   serviceLocator.registerLazySingleton(() => supabase.client);
+
+  // core
+  serviceLocator.registerLazySingleton(
+    () => AppUserCubit(),
+  );
 }
 
 void _initAuth() {
@@ -64,6 +70,7 @@ void _initAuth() {
         userSignUp: serviceLocator(),
         userLogin: serviceLocator(),
         currentUser: serviceLocator(),
+        appUserCubit: serviceLocator(),
       ),
     );
 }

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_clean_architecture_blog_app/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/core/theme/theme.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/custom_bloc_observer.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/presentation/pages/login_page.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/init_dependencies.dart';
+
+/// Core module/ package can not depend on other features but other features can depend on core.
 
 /// Dependency Injection is a Design Pattern, used to achieve inversion of control, which means that
 /// the dependencies of a component, and that component can be a class or a module, so the dependencies
@@ -20,6 +23,9 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (_) => serviceLocator<AppUserCubit>(),
+        ),
         BlocProvider(
           create: (_) => serviceLocator<AuthBloc>(),
         ),
@@ -49,7 +55,21 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Bloc Clean Architecture Blog App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkThemeMode,
-      home: const LoginPage(),
+      home: BlocSelector<AppUserCubit, AppUserState, bool>(
+        selector: (state) {
+          return state is AppUserLoggedIn;
+        },
+        builder: (context, isLoggedIn) {
+          if (isLoggedIn) {
+            return const Scaffold(
+              body: Center(
+                child: Text('Logged in'),
+              ),
+            );
+          }
+          return const LoginPage();
+        },
+      ),
     );
   }
 }

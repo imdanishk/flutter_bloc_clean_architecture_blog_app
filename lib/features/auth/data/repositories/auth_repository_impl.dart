@@ -2,10 +2,9 @@ import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
-import '../../domain/entities/user.dart';
+import '../../../../core/common/entities/user.dart';
 import '../../domain/repository/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
-import '../models/user_model.dart';
 
 /// Here, also we cannot create AuthRemoteDataSource like this:
 /// final AuthRemoteDataSource authRemoteDataSource = AuthRemoteDataSourceImpl(supabaseClient);
@@ -69,19 +68,19 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, User>> currentUser() async {
     try {
       // if (!await (connectionChecker.isConnected)) {
-      final session = remoteDataSource.currentUserSession;
+      //   final session = remoteDataSource.currentUserSession;
 
-      if (session == null) {
-        return left(Failure('User not logged in!'));
-      }
+      //   if (session == null) {
+      //     return left(Failure('User not logged in!'));
+      //   }
 
-      return right(
-        UserModel(
-          id: session.user.id,
-          email: session.user.email ?? '',
-          name: '',
-        ),
-      );
+      //   return right(
+      //     UserModel(
+      //       id: session.user.id,
+      //       email: session.user.email ?? '',
+      //       name: '',
+      //     ),
+      //   );
       // }
       final user = await remoteDataSource.getCurrentUserData();
       if (user == null) {

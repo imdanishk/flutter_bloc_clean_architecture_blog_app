@@ -1,4 +1,4 @@
-import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/domain/entities/user.dart';
+import 'package:flutter_bloc_clean_architecture_blog_app/core/common/entities/user.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/error/failures.dart';
