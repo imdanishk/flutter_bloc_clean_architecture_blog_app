@@ -1,16 +1,27 @@
 # flutter_bloc_clean_architecture_blog_app
 
-A new Flutter project.
+Blog App
 
-## Getting Started
+### About This Project
 
-This project is a starting point for a Flutter application.
+This is the flutter clean architecture project, using bloc/cubit for state management.
 
-A few resources to get you started if this is your first Flutter project:
+Feel free to fork this repository and submit a pull request if you have suggestions or improvements.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Tech used:
+- Bloc/ Cubit for state management
+- Hive for local storage
+- Supabase for remote database
+- GetIt for dependency injection
+
+---
+
+### UI Design
+-
+  <p>
+  <img src="https://github.com/imdanishk/flutter_bloc_clean_architecture_blog_app/blob/main/simulator_screenshot_30D7A5DD-F2B4-429C-BE23-EC2CCD49EFB1.png" width="250">
+  <img src="https://github.com/imdanishk/flutter_bloc_clean_architecture_blog_app/blob/main/simulator_screenshot_C705F4E8-0728-45AF-8FD4-ACBB96545304.png" width="250">
+  <p/>
+
+
