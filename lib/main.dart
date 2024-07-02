@@ -5,6 +5,7 @@ import 'package:flutter_bloc_clean_architecture_blog_app/core/theme/theme.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/custom_bloc_observer.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/features/auth/presentation/pages/login_page.dart';
+import 'package:flutter_bloc_clean_architecture_blog_app/features/blog/presentation/pages/blog_page.dart';
 import 'package:flutter_bloc_clean_architecture_blog_app/init_dependencies.dart';
 
 /// Core module/ package can not depend on other features but other features can depend on core.
@@ -61,11 +62,7 @@ class _MyAppState extends State<MyApp> {
         },
         builder: (context, isLoggedIn) {
           if (isLoggedIn) {
-            return const Scaffold(
-              body: Center(
-                child: Text('Logged in'),
-              ),
-            );
+            return const BlogPage();
           }
           return const LoginPage();
         },
