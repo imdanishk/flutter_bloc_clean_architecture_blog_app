@@ -1,3 +1,5 @@
+import 'package:flutter_bloc_clean_architecture_blog_app/core/constants/constants.dart';
+import 'package:flutter_bloc_clean_architecture_blog_app/core/network/connection_checker.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../../../../core/error/exceptions.dart';
@@ -5,6 +7,7 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/common/entities/user.dart';
 import '../../domain/repository/auth_repository.dart';
 import '../datasources/auth_remote_data_source.dart';
+import '../models/user_model.dart';
 
 /// Here, also we cannot create AuthRemoteDataSource like this:
 /// final AuthRemoteDataSource authRemoteDataSource = AuthRemoteDataSourceImpl(supabaseClient);
@@ -17,8 +20,10 @@ import '../datasources/auth_remote_data_source.dart';
 /// exist or not in our contract.
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
+  final ConnectionChecker connectionChecker;
   const AuthRepositoryImpl(
     this.remoteDataSource,
+    this.connectionChecker,
   );
 
   @override
@@ -53,11 +58,11 @@ class AuthRepositoryImpl implements AuthRepository {
     Future<User> Function() fn,
   ) async {
     try {
-      // if (!await (connectionChecker.isConnected)) {
-      //   return left(Failure(Constants.noConnectionErrorMessage));
-      // }
-      final user = await fn();
+      if (!await (connectionChecker.isConnected)) {
+        return left(Failure(Constants.noConnectionErrorMessage));
+      }
 
+      final user = await fn();
       return right(user);
     } on ServerException catch (e) {
       return left(Failure(e.message));
@@ -67,21 +72,22 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, User>> currentUser() async {
     try {
-      // if (!await (connectionChecker.isConnected)) {
-      //   final session = remoteDataSource.currentUserSession;
+      if (!await (connectionChecker.isConnected)) {
+        final session = remoteDataSource.currentUserSession;
 
-      //   if (session == null) {
-      //     return left(Failure('User not logged in!'));
-      //   }
+        if (session == null) {
+          return left(Failure('User not logged in!'));
+        }
 
-      //   return right(
-      //     UserModel(
-      //       id: session.user.id,
-      //       email: session.user.email ?? '',
-      //       name: '',
-      //     ),
-      //   );
-      // }
+        return right(
+          UserModel(
+            id: session.user.id,
+            email: session.user.email ?? '',
+            name: '',
+          ),
+        );
+      }
+
       final user = await remoteDataSource.getCurrentUserData();
       if (user == null) {
         return left(Failure('User not logged in!'));
